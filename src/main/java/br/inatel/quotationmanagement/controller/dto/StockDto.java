@@ -11,7 +11,7 @@ public class StockDto {
 	private String id;
 	private String stockId;
 	private List<Quote> quotes;
-	
+
 	public StockDto(Stock stock) {
 		this.id = stock.getId();
 		this.stockId = stock.getStockId();
