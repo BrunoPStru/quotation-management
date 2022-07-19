@@ -6,4 +6,6 @@ import br.inatel.quotationmanagement.model.Quote;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
+	Quote findByStock(String stockId);
+
 }

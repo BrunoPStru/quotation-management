@@ -1,22 +1,34 @@
 package br.inatel.quotationmanagement.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.inatel.quotationmanagement.controller.dto.StockDto;
+import br.inatel.quotationmanagement.controller.form.StockForm;
 import br.inatel.quotationmanagement.model.Stock;
+import br.inatel.quotationmanagement.repository.QuoteRepository;
 import br.inatel.quotationmanagement.repository.StockRepository;
 
 @RestController
+@RequestMapping("/stocks")
 public class StockController {
 
 	@Autowired
 	private StockRepository stockRepository;
 
-	@RequestMapping("/stocks")
+	@Autowired
+	private QuoteRepository quoteRepository;
+
+	@GetMapping
 	public List<StockDto> list(String stockId) {
 
 		if (stockId == null) {
@@ -27,24 +39,15 @@ public class StockController {
 			return StockDto.convert(stock);
 		}
 
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//		LocalDate quoteDate = LocalDate.parse("01/01/2019", formatter);
-//		LocalDate quoteDate2 = LocalDate.parse("02/01/2019", formatter);
-//		LocalDate quoteDate3 = LocalDate.parse("03/01/2019", formatter);
-//		
-//		Quote quote = new Quote(quoteDate, 10.0);
-//		Quote quote2 = new Quote(quoteDate2, 11.0);
-//		Quote quote3 = new Quote(quoteDate3, 14.0);
-//		
-//		List<Quote> quotes = new ArrayList<Quote>();
-//		quotes.add(quote);
-//		quotes.add(quote2);
-//		quotes.add(quote3);
-//		
-//		Stock stock = new Stock("PETR3", quotes);
-//		
-//		return StockDto.convert(Arrays.asList(stock));
+	}
 
+	@PostMapping
+	public ResponseEntity<StockDto> register(@RequestBody StockForm form, UriComponentsBuilder uriBuilder) {
+		Stock stock = form.convert(quoteRepository);
+		stockRepository.save(stock);
+
+		URI uri = uriBuilder.path("/stocks/{id}").buildAndExpand(stock.getId()).toUri();
+		return ResponseEntity.created(uri).body(new StockDto(stock));
 	}
 
 }
