@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-//@Entity
+@Entity
 public class Quote {
 
 	@Id
@@ -19,10 +19,10 @@ public class Quote {
 	@ManyToOne
 	private Stock stock;
 
-	public Quote(LocalDate quoteDate, Double price) {
-		this.quoteDate = quoteDate;
-		this.price = price;
-	}
+//	public Quote(LocalDate quoteDate, Double price) {
+//		this.quoteDate = quoteDate;
+//		this.price = price;
+//	}
 
 	public Long getId() {
 		return id;

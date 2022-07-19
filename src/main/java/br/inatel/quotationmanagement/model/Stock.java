@@ -8,19 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
-//@Entity
+@Entity
 public class Stock {
 
 	@Id
 	private String id;
 	private String stockId;
-	@OneToMany(mappedBy = "quote")
+	@OneToMany(mappedBy = "stock")
 	private List<Quote> quotes;
 
-	public Stock(String stockId, List<Quote> quotes) {
-		this.stockId = stockId;
-		this.quotes = quotes;
-	}
+//	public Stock(String stockId, List<Quote> quotes) {
+//		this.stockId = stockId;
+//		this.quotes = quotes;
+//	}
 
 	public String getId() {
 		return id;
