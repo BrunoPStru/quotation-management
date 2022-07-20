@@ -12,42 +12,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.inatel.quotationmanagement.controller.dto.StockDto;
-import br.inatel.quotationmanagement.controller.form.StockForm;
+import br.inatel.quotationmanagement.controller.dto.StockQuoteDto;
 import br.inatel.quotationmanagement.model.Stock;
-import br.inatel.quotationmanagement.repository.QuoteRepository;
-import br.inatel.quotationmanagement.repository.StockRepository;
+import br.inatel.quotationmanagement.service.StockService;
 
 @RestController
 @RequestMapping("/stocks")
 public class StockController {
 
-	@Autowired
-	private StockRepository stockRepository;
-
-	@Autowired
-	private QuoteRepository quoteRepository;
-
-	@GetMapping
-	public List<StockDto> list(String stockId) {
-
-		if (stockId == null) {
-			List<Stock> stocks = stockRepository.findAll();
-			return StockDto.convert(stocks);
-		} else {
-			List<Stock> stock = stockRepository.findByStockId(stockId);
-			return StockDto.convert(stock);
-		}
-
-	}
+//	@Autowired
+//	private StockRepository stockRepository;
+//
+//	@GetMapping
+//	public List<StockQuoteDto> list(String stockId) {
+//
+//		if (stockId == null) {
+//			List<Stock> stocks = stockRepository.findAll();
+//			return StockQuoteDto.convert(stocks);
+//		} else {
+//			List<Stock> stock = stockRepository.findByStockId(stockId);
+//			return StockQuoteDto.convert(stock);
+//		}
+//
+//	}
 
 	@PostMapping
-	public ResponseEntity<StockDto> register(@RequestBody StockForm form, UriComponentsBuilder uriBuilder) {
-		Stock stock = form.convert(quoteRepository);
-		stockRepository.save(stock);
+	public ResponseEntity<StockQuoteDto> register(@RequestBody StockQuoteDto stockQuoteDto,
+			UriComponentsBuilder uriBuilder) {
+		Stock stock = stockQuoteDto.convert();
+		StockService stockService = new StockService();
+		stockService.saveStockAndQuotes(stock, stock.getQuotes());
 
 		URI uri = uriBuilder.path("/stocks/{id}").buildAndExpand(stock.getId()).toUri();
-		return ResponseEntity.created(uri).body(new StockDto(stock));
+		return ResponseEntity.created(uri).body(new StockQuoteDto(stock));
 	}
 
 }

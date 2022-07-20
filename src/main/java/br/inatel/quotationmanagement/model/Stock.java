@@ -1,8 +1,6 @@
 package br.inatel.quotationmanagement.model;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -15,20 +13,26 @@ public class Stock {
 
 	@Id
 	private String id;
+	
 	private String stockId;
+	
 	@OneToMany(mappedBy = "stock")
 	private List<Quote> quotes;
 
 	public Stock() {
 	}
-	
-	public Stock(String stockId, Map<LocalDate, Double> quotes) {
+
+	public Stock(String stockId, List<Quote> quotes) {
 		this.stockId = stockId;
-		this.quotes = (List<Quote>) quotes;
+		this.quotes = quotes;
 	}
 
 	public String getId() {
 		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getStockId() {

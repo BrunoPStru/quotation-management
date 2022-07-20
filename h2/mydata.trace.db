@@ -1,4 +1,0 @@
-2022-07-19 16:51:25 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM STOCK \000d\000a[*]SELECT * FROM QUOTE"; SQL statement:
-SELECT * FROM STOCK 
-SELECT * FROM QUOTE [42000-214]

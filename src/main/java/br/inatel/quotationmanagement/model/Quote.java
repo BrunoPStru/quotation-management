@@ -14,15 +14,21 @@ public class Quote {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private LocalDate quoteDate;
+
 	private Double price;
+
 	@ManyToOne
 	private Stock stock;
 
-//	public Quote(LocalDate quoteDate, Double price) {
-//		this.quoteDate = quoteDate;
-//		this.price = price;
-//	}
+	public Quote() {
+	}
+
+	public Quote(LocalDate quoteDate, Double price) {
+		this.quoteDate = quoteDate;
+		this.price = price;
+	}
 
 	public Long getId() {
 		return id;
