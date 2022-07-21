@@ -1,5 +1,6 @@
 package br.inatel.quotationmanagement.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,26 +24,45 @@ public class StockService {
 	@Autowired
 	private QuoteRepository quoteRepository;
 
-//	public List<StockQuoteDto> findAll(){
-//		List<Stock> stockQuoteDtos = stockRepository.findAll();
-//		return stockQuoteDtos;
-//	}
+	public List<Stock> findAll(){
+		List<Stock> stocks = stockRepository.findAll();
+		
+		return stocks;
+	}
 
 	public Optional<Stock> findByStockId(String stockId){
 		Stock stock = stockRepository.findByStockId(stockId);
+		
 		return Optional.ofNullable(stock);
 	}
 
 	public Stock saveStockAndQuotes(Stock stock) {
-		Optional<Stock> findStock = findByStockId(stock.getStockId());
-
-		if (findStock == null){
-			stockRepository.saveAndFlush(stock);
-		} else {
-			quoteRepository.saveAllAndFlush(stock.getQuotes());
-		}
+		List<Quote> quotes = new ArrayList<>(stock.getQuotes());
+		
+		stock = saveStock(stock);
+		
+		saveQuotes(quotes, stock);
 
 		return stock;
+	}
+
+	private Stock saveStock(Stock stock) {
+		Optional<Stock> opStock = findByStockId(stock.getStockId());
+		
+		if (opStock.isPresent()){
+			Stock stockAux = opStock.get();
+			stock.setId(stockAux.getId());
+		}
+		
+		stockRepository.save(stock);
+		
+		return stock;
+	}
+	
+	private void saveQuotes(List<Quote> quotes, Stock stock) {
+		quotes.forEach(q -> q.setStock(stock));
+		
+		quoteRepository.saveAll(quotes);
 	}
 
 }

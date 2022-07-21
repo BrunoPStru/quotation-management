@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Stock {
@@ -14,6 +15,7 @@ public class Stock {
 	@Id
 	private String id;
 	
+	@NotNull
 	private String stockId;
 	
 	@OneToMany(mappedBy = "stock")

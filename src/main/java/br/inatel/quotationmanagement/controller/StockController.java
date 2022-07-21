@@ -17,12 +17,13 @@ import br.inatel.quotationmanagement.service.StockService;
 @RequestMapping("/stocks")
 public class StockController {
 
+	@Autowired
     StockService stockService;
 
 //    @GetMapping
 //    public List<StockQuoteDto> list(StockQuoteDto stockQuoteDto) {
 //
-//        if (stockQuoteDto.getStockId() == null) {
+//        if (stockQuoteDto.getStockId().isEmpty()) {
 //            List<StockQuoteDto> stocks = stockService.findAll();
 //            return stocks.convert();
 //        } else {
@@ -37,8 +38,7 @@ public class StockController {
     public ResponseEntity<StockQuoteDto> register(@RequestBody StockQuoteDto stockQuoteDto,
                                                   UriComponentsBuilder uriBuilder) {
         Stock stock = stockQuoteDto.convert();
-        StockService stockService = new StockService();
-        stockService.saveStockAndQuotes(stock);
+        stock = stockService.saveStockAndQuotes(stock);
 
         URI uri = uriBuilder.path("/stocks/{id}").buildAndExpand(stock.getId()).toUri();
         return ResponseEntity.created(uri).body(new StockQuoteDto(stock));

@@ -1,17 +1,16 @@
 package br.inatel.quotationmanagement.repository;
 
-import br.inatel.quotationmanagement.controller.dto.StockQuoteDto;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import br.inatel.quotationmanagement.model.Stock;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import br.inatel.quotationmanagement.model.Stock;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, String> {
 
-	List<Stock> findAll();
+//	List<Stock> findAll();
 	
 	Stock findByStockId(String stockId);
 

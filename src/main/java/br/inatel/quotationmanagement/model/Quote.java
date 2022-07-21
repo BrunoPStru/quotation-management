@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Quote {
@@ -15,11 +16,13 @@ public class Quote {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	private LocalDate quoteDate;
 
+	@NotNull
 	private Double price;
 
-	@ManyToOne
+	@ManyToOne @NotNull
 	private Stock stock;
 
 	public Quote() {
@@ -32,6 +35,10 @@ public class Quote {
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public LocalDate getQuoteDate() {
