@@ -1,6 +1,8 @@
 package br.inatel.quotationmanagement.controller.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -40,7 +42,7 @@ public class StockQuoteDto {
 //		return stocks.stream().map(StockQuoteDto::new).collect(Collectors.toList());
 //	}
 	
-	public Stock convert() {
+	public Stock convertToStock() {
 		Stock stock = new Stock();
 		stock.setId(id);
 		stock.setStockId(stockId);
@@ -50,6 +52,21 @@ public class StockQuoteDto {
 					.collect(Collectors.toList())
 				);
 		return stock;
+	}
+
+	public List<StockQuoteDto> convertToDto(List<Stock> stocks) {
+//		List<StockQuoteDto> stocksQuotesDto = new ArrayList<>();
+//		stocksQuotesDto.forEach(s -> );
+//
+//		stocks.forEach(s -> {
+//			s.setId(id);
+//			s.setStockId(stockId);
+//			s.setQuotes(quotes.entrySet().stream()
+//					.map(e -> new Quote(e.getKey(), e.getValue()))
+//					.collect(Collectors.toList()));
+//		});
+		List<StockQuoteDto> stocksQuotesDto = new ArrayList<>();
+		return stocksQuotesDto;
 	}
 
 }

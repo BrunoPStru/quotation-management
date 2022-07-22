@@ -1,7 +1,9 @@
 package br.inatel.quotationmanagement.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,27 +19,36 @@ import br.inatel.quotationmanagement.service.StockService;
 @RequestMapping("/stocks")
 public class StockController {
 
-	@Autowired
+    @Autowired
     StockService stockService;
 
-//    @GetMapping
-//    public List<StockQuoteDto> list(StockQuoteDto stockQuoteDto) {
-//
-//        if (stockQuoteDto.getStockId().isEmpty()) {
-//            List<StockQuoteDto> stocks = stockService.findAll();
-//            return stocks.convert();
-//        } else {
-//            List<StockQuoteDto> stock = stockService.findByStockId(stockQuoteDto.getStockId());
-//            return stock.convert();
-//        }
-//
-//    }
+    @GetMapping
+    public List<StockQuoteDto> getStockQuote(StockQuoteDto stockQuoteDto) {
+
+        if (stockQuoteDto.getStockId().isEmpty()) {
+            List<StockQuoteDto> stocksQuotesDto = stockService.findAll();
+
+            return stocksQuotesDto;
+        } else {
+            Optional<Stock> opStock = stockService.findByStockId(stockQuoteDto.getStockId());
+
+            Stock stock = new Stock();
+            if (opStock.isPresent()){
+                Stock stockAux = opStock.get();
+                stock.setId(stockAux.getId());
+            }
+
+            List<StockQuoteDto> stocksQuotesDto = new ArrayList<>();
+            return stocksQuotesDto;
+        }
+
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<StockQuoteDto> register(@RequestBody StockQuoteDto stockQuoteDto,
-                                                  UriComponentsBuilder uriBuilder) {
-        Stock stock = stockQuoteDto.convert();
+    public ResponseEntity<StockQuoteDto> postStockQuote(@RequestBody StockQuoteDto stockQuoteDto,
+                                                        UriComponentsBuilder uriBuilder) {
+        Stock stock = stockQuoteDto.convertToStock();
         stock = stockService.saveStockAndQuotes(stock);
 
         URI uri = uriBuilder.path("/stocks/{id}").buildAndExpand(stock.getId()).toUri();

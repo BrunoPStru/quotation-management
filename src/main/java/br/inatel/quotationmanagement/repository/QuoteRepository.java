@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
-	Quote findByStock(String stockId);
-
 }

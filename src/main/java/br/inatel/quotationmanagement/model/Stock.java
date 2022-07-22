@@ -1,5 +1,6 @@
 package br.inatel.quotationmanagement.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class Stock {
 	private String stockId;
 	
 	@OneToMany(mappedBy = "stock")
-	private List<Quote> quotes;
+	private List<Quote> quotes = new ArrayList<>();
 
 	public Stock() {
 	}
