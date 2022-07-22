@@ -23,27 +23,28 @@ public class StockService {
 
 	@Autowired
 	private QuoteRepository quoteRepository;
-
+	
 	public List<StockQuoteDto> findAll(){
-		List<Stock> stocks = stockRepository.findAll();
-
-		List<StockQuoteDto> stocksQuotesDto = new StockQuoteDto().convertToDto(stocks);
-
-		return stocksQuotesDto;
+		List<Stock> listStock = stockRepository.findAll();
+		return StockQuoteDto.convertToListDto(listStock);
 	}
 
 	public Optional<Stock> findByStockId(String stockId){
 		Stock stock = stockRepository.findByStockId(stockId);
-
+		
+		if (stock != null) {
+			stock.getListQuote().size();
+		}
+		
 		return Optional.ofNullable(stock);
 	}
 
 	public Stock saveStockAndQuotes(Stock stock) {
-		List<Quote> quotes = new ArrayList<>(stock.getQuotes());
+		List<Quote> listQuote = new ArrayList<>(stock.getListQuote());
 
 		stock = saveStock(stock);
 
-		saveQuotes(quotes, stock);
+		saveQuotes(listQuote, stock);
 
 		return stock;
 	}
@@ -61,10 +62,12 @@ public class StockService {
 		return stock;
 	}
 
-	private void saveQuotes(List<Quote> quotes, Stock stock) {
-		quotes.forEach(q -> q.setStock(stock));
+	private void saveQuotes(List<Quote> listQuote, Stock stock) {
+		listQuote.forEach(q -> q.setStock(stock));
 
-		quoteRepository.saveAll(quotes);
+		quoteRepository.saveAll(listQuote);
 	}
+
+
 
 }

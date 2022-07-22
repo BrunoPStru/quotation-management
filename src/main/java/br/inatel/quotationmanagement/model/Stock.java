@@ -20,14 +20,14 @@ public class Stock {
 	private String stockId;
 	
 	@OneToMany(mappedBy = "stock")
-	private List<Quote> quotes = new ArrayList<>();
+	private List<Quote> listQuote = new ArrayList<>();
 
 	public Stock() {
 	}
 
-	public Stock(String stockId, List<Quote> quotes) {
+	public Stock(String stockId, List<Quote> listQuote) {
 		this.stockId = stockId;
-		this.quotes = quotes;
+		this.listQuote = listQuote;
 	}
 
 	public String getId() {
@@ -46,12 +46,12 @@ public class Stock {
 		this.stockId = stockId;
 	}
 
-	public List<Quote> getQuotes() {
-		return quotes;
+	public List<Quote> getListQuote() {
+		return listQuote;
 	}
 
-	public void setQuotes(List<Quote> quotes) {
-		this.quotes = quotes;
+	public void setListQuote(List<Quote> listQuote) {
+		this.listQuote = listQuote;
 	}
 
 	@PrePersist
