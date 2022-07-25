@@ -41,19 +41,6 @@ public class StockController {
     	}
         
     }
-    
-//    @GetMapping
-//	public ResponseEntity<List<StockQuoteDto>> getStockQuote() {
-//		List<StockQuoteDto> liststockQuoteDto = stockService.findAll();
-//		return ResponseEntity.ok(liststockQuoteDto);
-//
-//	}
-//
-//	@GetMapping("/{stockId}")
-//	public ResponseEntity<StockQuoteDto> getOneStockQuote(@PathVariable String stockId) {
-//		Optional<Stock> optStock = stockService.findByStockId(stockId);
-//		return ResponseEntity.ok(new StockQuoteDto(optStock.get()));
-//	}
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
