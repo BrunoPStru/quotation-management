@@ -49,7 +49,7 @@ public class StockQuoteDto {
 	public static List<StockQuoteDto> convertToListDto(List<Stock> listStock) {
 		return listStock.stream().map(StockQuoteDto::new).collect(Collectors.toList());
 	}
-	
+
 	public Stock convertToStock() {
 		Stock stock = new Stock();
 		stock.setId(id);

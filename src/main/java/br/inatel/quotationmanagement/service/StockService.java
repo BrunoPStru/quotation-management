@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import br.inatel.quotationmanagement.adapter.WebClientAdapter;
 import br.inatel.quotationmanagement.controller.dto.StockQuoteDto;
 import br.inatel.quotationmanagement.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class StockService {
 
 	@Autowired
 	private QuoteRepository quoteRepository;
+	
+	@Autowired
+	WebClientAdapter webClientAdapter;
 	
 	public List<StockQuoteDto> findAll(){
 		List<Stock> listStock = stockRepository.findAll();
@@ -50,18 +54,31 @@ public class StockService {
 	}
 
 	private Stock saveStock(Stock stock) {
-		Optional<Stock> optStock = findByStockId(stock.getStockId());
 
-//		chamar a API externa para verificar se o stock existe na API, se existir pode salvar, se não lança uma exception
+		Boolean validate = validateStock(stock); 
 
-		if (optStock.isPresent()){
-			Stock stockAux = optStock.get();
-			stock.setId(stockAux.getId());
+		if (validate) {
+			Optional<Stock> optStock = findByStockId(stock.getStockId());
+			
+			if (optStock.isPresent()){
+				Stock stockAux = optStock.get();
+				stock.setId(stockAux.getId());
+			}
+			
+			stockRepository.save(stock);
+			
+			return stock;
 		}
-
-		stockRepository.save(stock);
-
+		
 		return stock;
+	}
+	
+	private Boolean validateStock(Stock stock) {
+		Boolean validate = false;
+		
+		//chama a API externa para verificar se o stock existe na API, se existir pode salvar, se não lança uma exception
+		
+		return validate;
 	}
 
 	private void saveQuotes(List<Quote> listQuote, Stock stock) {
@@ -69,7 +86,5 @@ public class StockService {
 
 		quoteRepository.saveAll(listQuote);
 	}
-
-
 
 }
