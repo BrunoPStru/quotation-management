@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -18,13 +19,16 @@ public class Quote {
 	private Long id;
 
 	@NotNull
+	@NotEmpty
 	private LocalDate quoteDate;
 
 	@NotNull
+	@NotEmpty
 	private Double price;
 
 	@ManyToOne 
 	@NotNull
+	@NotEmpty
 	@JoinColumn(name = "stock_id")
 	private Stock stock;
 

@@ -1,0 +1,4 @@
+2022-07-25 23:18:28 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "drop table quote\000d\000a[*]drop table stock"; SQL statement:
+drop table quote
+drop table stock [42000-214]

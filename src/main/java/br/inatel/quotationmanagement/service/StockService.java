@@ -50,10 +50,12 @@ public class StockService {
 	}
 
 	private Stock saveStock(Stock stock) {
-		Optional<Stock> opStock = findByStockId(stock.getStockId());
+		Optional<Stock> optStock = findByStockId(stock.getStockId());
 
-		if (opStock.isPresent()){
-			Stock stockAux = opStock.get();
+//		chamar a API externa para verificar se o stock existe na API, se existir pode salvar, se não lança uma exception
+
+		if (optStock.isPresent()){
+			Stock stockAux = optStock.get();
 			stock.setId(stockAux.getId());
 		}
 
