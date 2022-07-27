@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import br.inatel.quotationmanagement.adapter.WebClientAdapter;
 import br.inatel.quotationmanagement.controller.dto.StockQuoteDto;
+import br.inatel.quotationmanagement.controller.dto.WebClientDto;
 import br.inatel.quotationmanagement.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,8 +76,10 @@ public class StockService {
 	
 	private Boolean validateStock(Stock stock) {
 		Boolean validate = false;
-		
-		//chama a API externa para verificar se o stock existe na API, se existir pode salvar, se não lança uma exception
+
+//		List<Stock> stock = webClientAdapter.getFlux();
+
+		// VERIFICAR SE stock.getStockId() ESTÁ CONTIDO EM listWebClient
 		
 		return validate;
 	}

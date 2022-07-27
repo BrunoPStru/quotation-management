@@ -3,6 +3,7 @@ package br.inatel.quotationmanagement.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.inatel.quotationmanagement.controller.dto.WebClientDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,7 +27,7 @@ public class WebClientAdapter {
                 .retrieve()
                 .bodyToFlux(Stock.class);
 
-        fluxStock.subscribe(s -> listStock.add(s));
+        fluxStock.subscribe(w -> listStock.add(w));
         fluxStock.blockLast();
 
         return listStock;

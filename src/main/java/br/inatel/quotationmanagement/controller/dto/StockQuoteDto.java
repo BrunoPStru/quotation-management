@@ -12,7 +12,9 @@ import br.inatel.quotationmanagement.model.Stock;
 public class StockQuoteDto {
 
 	private String id;
+
 	private String stockId;
+
 	private Map<LocalDate, Double> quotes = new HashMap<>();
 
 	public StockQuoteDto() {
@@ -26,14 +28,6 @@ public class StockQuoteDto {
 				.collect(Collectors.toMap(Quote::getQuoteDate, Quote::getPrice));
 	}
 
-	public void setStockId(String stockId) {
-		this.stockId = stockId;
-	}
-
-	public void setQuotes(Map<LocalDate, Double> quotes) {
-		this.quotes = quotes;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -42,8 +36,16 @@ public class StockQuoteDto {
 		return stockId;
 	}
 
+	public void setStockId(String stockId) {
+		this.stockId = stockId;
+	}
+
 	public Map<LocalDate, Double> getQuotes() {
 		return quotes;
+	}
+
+	public void setQuotes(Map<LocalDate, Double> quotes) {
+		this.quotes = quotes;
 	}
 
 	public static List<StockQuoteDto> convertToListDto(List<Stock> listStock) {
@@ -59,6 +61,7 @@ public class StockQuoteDto {
 					.map(e -> new Quote(e.getKey(), e.getValue()))
 					.collect(Collectors.toList())
 				);
+
 		return stock;
 	}
 

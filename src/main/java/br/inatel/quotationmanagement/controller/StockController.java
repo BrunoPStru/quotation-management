@@ -34,11 +34,14 @@ public class StockController {
     	try{
             if (stockId == null) {
                 List<StockQuoteDto> listStockQuoteDto = stockService.findAll();
+
                 return listStockQuoteDto;
             } else {
                 Optional<Stock> optStock = stockService.findByStockId(stockId);
                 List<StockQuoteDto> listStockQuoteDto = new ArrayList<>();
+
                 listStockQuoteDto.add(new StockQuoteDto(optStock.get()));
+
                 return listStockQuoteDto;
             }
         } catch (Exception e) {
