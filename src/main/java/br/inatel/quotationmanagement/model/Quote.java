@@ -6,10 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Quote {
@@ -19,17 +18,13 @@ public class Quote {
 	private Long id;
 
 	@NotNull
-	@NotEmpty
 	private LocalDate quoteDate;
 
 	@NotNull
-	@NotEmpty
+	@PositiveOrZero
 	private Double price;
 
-	@ManyToOne 
-	@NotNull
-	@NotEmpty
-	@JoinColumn(name = "stock_id")
+	@ManyToOne
 	private Stock stock;
 
 	public Quote() {

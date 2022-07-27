@@ -16,11 +16,11 @@ public class Stock {
 
 	@Id
 	private String id;
-	
+
 	@NotNull
 	@NotEmpty
 	private String stockId;
-	
+
 	@OneToMany(mappedBy = "stock")
 	private List<Quote> listQuote = new ArrayList<>();
 

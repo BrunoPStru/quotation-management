@@ -3,34 +3,43 @@ package br.inatel.quotationmanagement.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.inatel.quotationmanagement.controller.dto.WebClientDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import br.inatel.quotationmanagement.model.Stock;
+import br.inatel.quotationmanagement.controller.dto.AdapterStockDto;
 import reactor.core.publisher.Flux;
 
 @Service
 public class WebClientAdapter {
 
 	@Value("${stock.management.url}")
-	private String stockManagementUrl;
+	private String STOCKMANAGEMENTURL;
 	
-    public List<Stock> getFlux(){
+	@Cacheable(value = "stockCache")
+    public List<AdapterStockDto> getFlux(){
     	
-        List<Stock> listStock = new ArrayList<Stock>();
+        List<AdapterStockDto> listAdapterStock = new ArrayList<>();
 
-        Flux<Stock> fluxStock = WebClient.create(stockManagementUrl)
-                .get()
-                .uri("/stock")
-                .retrieve()
-                .bodyToFlux(Stock.class);
+        try {
+			Flux<AdapterStockDto> fluxStock = WebClient.create(STOCKMANAGEMENTURL)
+			        .get()
+			        .uri("/stock")
+			        .retrieve()
+			        .bodyToFlux(AdapterStockDto.class);
 
-        fluxStock.subscribe(w -> listStock.add(w));
-        fluxStock.blockLast();
+			fluxStock.subscribe(a -> listAdapterStock.add(a));
+			fluxStock.blockLast();
 
-        return listStock;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+        return listAdapterStock;
     }
+	
+//	@PostConstruct
+//	postMono http://localhost:8080/notification
 
 }

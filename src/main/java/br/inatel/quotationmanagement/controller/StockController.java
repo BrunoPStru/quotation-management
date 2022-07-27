@@ -2,6 +2,7 @@ package br.inatel.quotationmanagement.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,43 +26,47 @@ import javax.validation.Valid;
 @RequestMapping("/stock")
 public class StockController {
 
-    @Autowired
-    StockService stockService;
-   
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<StockQuoteDto> getStockQuote(@RequestParam(required = false) String stockId) {
-    	try{
-            if (stockId == null) {
-                List<StockQuoteDto> listStockQuoteDto = stockService.findAll();
+	@Autowired
+	StockService stockService;
 
-                return listStockQuoteDto;
-            } else {
-                Optional<Stock> optStock = stockService.findByStockId(stockId);
-                List<StockQuoteDto> listStockQuoteDto = new ArrayList<>();
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public List<StockQuoteDto> getStockQuote(@RequestParam(required = false) String stockId) {
+		try {
+			if (stockId == null) {
+				List<StockQuoteDto> listStockQuoteDto = stockService.findAll();
 
-                listStockQuoteDto.add(new StockQuoteDto(optStock.get()));
+				return listStockQuoteDto;
+			} else {
+				Optional<Stock> optStock = stockService.findByStockId(stockId);
+				List<StockQuoteDto> listStockQuoteDto = new ArrayList<>();
 
-                return listStockQuoteDto;
-            }
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        
-    }
+				listStockQuoteDto.add(new StockQuoteDto(optStock.get()));
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public StockQuoteDto postStockQuote(@RequestBody @Valid StockQuoteDto stockQuoteDto) {
-        try{
-            Stock stock = stockQuoteDto.convertToStock();
-            stock = stockService.saveStockAndQuotes(stock);
+				return listStockQuoteDto;
+			}
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
 
-            return new StockQuoteDto(stock);
-        } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+	}
 
-    }
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public StockQuoteDto postStockQuote(@RequestBody @Valid StockQuoteDto stockQuoteDto) {
+		try {
+			Stock stock = stockQuoteDto.convertToStock();
+			stock = stockService.saveStockAndQuotes(stock);
+
+			return new StockQuoteDto(stock);
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+
+	}
 
 }
