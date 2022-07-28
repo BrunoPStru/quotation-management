@@ -46,7 +46,11 @@ public class StockService {
 	}
 
 	public Stock saveStockAndQuotes(Stock stock) {
-//    	TRATAR A VALIDAÇÃO DO stock.stockId, VERIFICAR SE NÃO ESTÁ NULL OU EMPTY
+		
+		if (stock.getStockId().isBlank() || stock.getStockId() == null) {
+			throw new NoSuchElementException("stockId needs to have a value.");
+		}
+
 		List<Quote> listQuote = new ArrayList<>(stock.getListQuote());
 
 		validateStock(stock);
@@ -74,9 +78,9 @@ public class StockService {
 	private void validateStock(Stock stock) {
 		Boolean validate = false;
 
-		List<AdapterStockDto> listAdapterstock = webClientAdapter.getFlux();
-
-		validate = listAdapterstock.stream()
+		validate = webClientAdapter
+				.getFlux()
+				.stream()
 				.anyMatch(s -> s.getStockId().equals(stock.getStockId()));
 
 		if (validate) {

@@ -29,6 +29,11 @@ public class StockController {
 	@Autowired
 	StockService stockService;
 
+	/**
+	 * This is a method that lists the stocks and quotes
+	 * @param "stockId" is the name of the "stockId" column
+	 * @return a list of stockDto
+	 */
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public List<StockQuoteDto> getStockQuote(@RequestParam(required = false) String stockId) {
