@@ -57,6 +57,12 @@ public class StockController {
 
     }
 
+    /**
+     * This is the method that makes the post for stock and quote
+     * 
+     * @param "stockQuoteDto" is the name of the "StockQuoteDto" class
+     * @return returns the stock that was sent to the post method
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public StockQuoteDto postStockQuote(@RequestBody @Valid StockQuoteDto stockQuoteDto) {
@@ -66,10 +72,10 @@ public class StockController {
 
             return new StockQuoteDto(stock);
         } catch (NoSuchElementException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
