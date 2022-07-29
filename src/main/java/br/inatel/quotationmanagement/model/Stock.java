@@ -1,5 +1,6 @@
 package br.inatel.quotationmanagement.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -7,23 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Stock {
 
 	@Id
 	private String id;
-	private String stockId;
-	@OneToMany(mappedBy = "stock")
-	private List<Quote> quotes;
 
-//	public Stock(String stockId, List<Quote> quotes) {
-//		this.stockId = stockId;
-//		this.quotes = quotes;
-//	}
+	@NotNull
+	@NotEmpty
+	private String stockId;
+
+	@OneToMany(mappedBy = "stock")
+	private List<Quote> listQuote = new ArrayList<>();
+
+	public Stock() {
+	}
+
+	public Stock(String stockId, List<Quote> listQuote) {
+		this.stockId = stockId;
+		this.listQuote = listQuote;
+	}
 
 	public String getId() {
 		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getStockId() {
@@ -34,12 +48,12 @@ public class Stock {
 		this.stockId = stockId;
 	}
 
-	public List<Quote> getQuotes() {
-		return quotes;
+	public List<Quote> getListQuote() {
+		return listQuote;
 	}
 
-	public void setQuotes(List<Quote> quotes) {
-		this.quotes = quotes;
+	public void setListQuote(List<Quote> listQuote) {
+		this.listQuote = listQuote;
 	}
 
 	@PrePersist
