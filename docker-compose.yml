@@ -30,7 +30,7 @@ services:
     build:
       dockerfile: ./Dockerfile
       context: ./
-    image: bruno-pimentel-struminski/quotation-management
+    image: bruno-pimentel-struminski/quotation-management:v1
     container_name: quotation-management
     ports:
       - 8081:8081
