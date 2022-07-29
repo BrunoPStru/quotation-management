@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 import br.inatel.quotationmanagement.controller.dto.StockQuoteDto;
 import br.inatel.quotationmanagement.model.Stock;
 import br.inatel.quotationmanagement.service.StockService;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/stock")
@@ -66,10 +66,10 @@ public class StockController {
 
             return new StockQuoteDto(stock);
         } catch (NoSuchElementException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
