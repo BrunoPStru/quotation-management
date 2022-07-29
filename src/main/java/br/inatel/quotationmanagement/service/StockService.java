@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.inatel.quotationmanagement.adapter.WebClientAdapter;
-import br.inatel.quotationmanagement.controller.dto.AdapterStockDto;
 import br.inatel.quotationmanagement.controller.dto.StockQuoteDto;
 import br.inatel.quotationmanagement.model.Quote;
 import br.inatel.quotationmanagement.model.Stock;
